@@ -1,0 +1,25 @@
+from flask import Flask, send_from_directory
+from src.main import generate_random_word
+
+app = Flask(__name__)
+
+
+# Path for our main Svelte page
+@app.route("/")
+def base():
+    return send_from_directory('client/public', 'index.html')
+
+
+# Path for all the static files (compiled JS/CSS, etc.)
+@app.route("/<path:path>")
+def home(path):
+    return send_from_directory('client/public', path)
+
+
+@app.route("/start")
+def start():
+    return generate_random_word()
+
+
+if __name__ == "__main__":
+    app.run()
